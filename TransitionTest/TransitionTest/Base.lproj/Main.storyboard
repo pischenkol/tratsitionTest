@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TransitionTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image" translatesAutoresizingMaskIntoConstraints="NO" id="vCk-xW-tzp">
+                                <rect key="frame" x="0.0" y="539" width="375" height="128"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="4vr-ab-rEd"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="DPj-3P-4gq" appends="YES" id="13f-Sh-5ys"/>
+                                </connections>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbI-LS-G6N">
+                                <rect key="frame" x="16" y="584" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="9X5-b9-Nai"/>
+                                    <constraint firstAttribute="height" constant="30" id="ZKA-t2-m49"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="bbI-LS-G6N" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="B0L-rJ-v7W"/>
+                            <constraint firstAttribute="trailing" secondItem="vCk-xW-tzp" secondAttribute="trailing" id="nxz-D6-9ve"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="bbI-LS-G6N" secondAttribute="bottom" constant="53" id="uLb-vL-AHN"/>
+                            <constraint firstItem="vCk-xW-tzp" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="xcI-Up-Ci5"/>
+                            <constraint firstItem="vCk-xW-tzp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="yev-9M-ZCV"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="viewAnimator" destination="sQM-sI-KIu" id="7J8-WR-gOk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <customObject id="sQM-sI-KIu" userLabel="Animator" customClass="ViewControllerAnimator" customModule="TransitionTest" customModuleProvider="target">
+                    <connections>
+                        <outlet property="mainView" destination="8bC-Xf-vdC" id="Es2-Eu-yfz"/>
+                        <outlet property="panGestureRecognizer" destination="DPj-3P-4gq" id="SGj-sN-jEa"/>
+                        <outlet property="sampleLabel" destination="bbI-LS-G6N" id="RXl-yk-9jz"/>
+                        <outlet property="sampleView" destination="vCk-xW-tzp" id="ceE-Bz-xDP"/>
+                    </connections>
+                </customObject>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="DPj-3P-4gq">
+                    <connections>
+                        <action selector="handlePanWithRecognizer:" destination="sQM-sI-KIu" id="5SC-XK-Qke"/>
+                    </connections>
+                </panGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-228" y="131"/>
+        </scene>
+        <!--Second View Controller-->
+        <scene sceneID="ws5-zy-UOI">
+            <objects>
+                <viewController id="sqc-IW-0n6" customClass="SecondViewController" customModule="TransitionTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w8Q-Pl-Xbe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="LTr-ZB-l85"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FbF-2L-Yu6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="807" y="131"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="image" width="4832" height="2718"/>
+    </resources>
+</document>
