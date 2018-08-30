@@ -65,7 +65,7 @@ class ViewControllerAnimator: NSObject {
         switch currentState {
         case .fullsize:
             fullsizeFrame = thumbnailFrame
-            endLabelPosition =  CGPoint.init(x: 70, y: self.mainView.frame.height - 50)
+            endLabelPosition = CGPoint.init(x: 70, y: self.mainView.frame.height - 50)
         case .thumbnail:
             fullsizeFrame = mainView.frame
             endLabelPosition = CGPoint.init(x: self.mainView.center.x, y: 50)
@@ -114,9 +114,9 @@ class ViewControllerAnimator: NSObject {
             
             switch currentState {
             case .thumbnail:
-                self.currentState = translation.y <= 0 ? .fullsize : .thumbnail
+                currentState = translation.y >= minEndingDistance ? .thumbnail : .fullsize
             case .fullsize:
-                self.currentState = translation.y <= 0 ? .fullsize : .thumbnail
+                  currentState = translation.y >= minEndingDistance ? .thumbnail : .fullsize
             default:
                 break
             }
