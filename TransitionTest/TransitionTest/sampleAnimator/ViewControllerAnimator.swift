@@ -18,7 +18,7 @@ import UIKit
 class ViewControllerAnimator: NSObject {
     
     let minEndingDistance  = UIScreen.main.bounds.size.height / 6
-
+    
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var sampleView: UIImageView!
     @IBOutlet weak var sampleLabel: UILabel!
@@ -53,32 +53,45 @@ class ViewControllerAnimator: NSObject {
             endAnimation(translation: translation, velocity: velocity)
             
         default:
-              break
+            break
         }
     }
     
     func startAnimation() {
         
         var fullsizeFrame:CGRect = CGRect()
+        var endLabelPosition:CGPoint = CGPoint()
         
         switch currentState {
         case .fullsize:
             fullsizeFrame = thumbnailFrame
+            endLabelPosition =  CGPoint.init(x: 70, y: self.mainView.frame.height - 50)
         case .thumbnail:
             fullsizeFrame = mainView.frame
+            endLabelPosition = CGPoint.init(x: self.mainView.center.x, y: 50)
         default:
-              break
+            break
         }
         
         animator = UIViewPropertyAnimator(duration: 1, dampingRatio: 0.8, animations: {
             self.sampleView.frame = fullsizeFrame
+            UIView.animateKeyframes(withDuration: 1, delay: 0.0, options: [.calculationModeCubic], animations: {
+                switch self.currentState {
+                case .fullsize:
+                    self.keyFrameLabelAnimation(endViewPosition: endLabelPosition)
+                case .thumbnail:
+                    self.keyFrameLabelAnimation(endViewPosition: endLabelPosition)
+                default:
+                    break
+                }
+            })
         })
     }
     
     func move (translation:CGPoint) {
         if let animator = self.animator {
-            let yTranslation = mainView.center.y + translation.y
             
+            let yTranslation = mainView.center.y + translation.y
             var progress:CGFloat = 0
             
             switch currentState {
@@ -87,10 +100,10 @@ class ViewControllerAnimator: NSObject {
             case .fullsize:
                 progress = (yTranslation / mainView.center.y) - 1
             default:
-                  break
+                break
             }
             
-            progress = max(0.0001, min(0.9999, progress))//need hold progress 0>progress<1 - for not and animation
+            progress = max(0.0001, min(0.9999, progress))//need hold progress 0>progress<1 - for not end animation
             animator.fractionComplete = progress
         }
     }
@@ -98,39 +111,14 @@ class ViewControllerAnimator: NSObject {
     func endAnimation (translation:CGPoint, velocity:CGPoint) {
         
         if let animator = self.animator {
-            panGestureRecognizer.isEnabled = false //turn off gestureRecognizer for and animation-
             
             switch currentState {
             case .thumbnail:
-                if translation.y <= -minEndingDistance  || velocity.y <= -minEndingDistance {
-                    animator.isReversed = false
-                    animator.addCompletion({ (position:UIViewAnimatingPosition) in
-                        self.currentState = .fullsize
-                        self.panGestureRecognizer.isEnabled = true
-                    })
-                }else {
-                    animator.isReversed = true
-                    animator.addCompletion({ (position:UIViewAnimatingPosition) in
-                        self.currentState = .thumbnail
-                        self.panGestureRecognizer.isEnabled = true
-                    })
-                }
+                self.currentState = translation.y <= 0 ? .fullsize : .thumbnail
             case .fullsize:
-                if translation.y >= minEndingDistance || velocity.y >= minEndingDistance {
-                    animator.isReversed = false
-                    animator.addCompletion({ (position:UIViewAnimatingPosition) in
-                        self.currentState = .thumbnail
-                        self.panGestureRecognizer.isEnabled = true
-                    })
-                }else {
-                    animator.isReversed = true
-                    animator.addCompletion({ (position:UIViewAnimatingPosition) in
-                        self.currentState = .fullsize
-                        self.panGestureRecognizer.isEnabled = true
-                    })
-                }
+                self.currentState = translation.y <= 0 ? .fullsize : .thumbnail
             default:
-                 break
+                break
             }
             
             let vector = CGVector(dx: velocity.x / 100, dy: velocity.y / 100)
@@ -140,4 +128,22 @@ class ViewControllerAnimator: NSObject {
         }
     }
     
+    func  keyFrameLabelAnimation (endViewPosition: CGPoint) {
+        
+        UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.3, animations: {
+            self.sampleLabel.center = CGPoint(x: 200, y: 500)
+            self.sampleLabel.textColor = .green
+        })
+        
+        UIView.addKeyframe(withRelativeStartTime: 0.31, relativeDuration: 0.3, animations: {
+            self.sampleLabel.center = CGPoint(x: 300, y: self.mainView.center.y)
+            self.sampleLabel.textColor = .blue
+        })
+        
+        UIView.addKeyframe(withRelativeStartTime: 0.61, relativeDuration: 0.39, animations: {
+            self.sampleLabel.center = CGPoint(x: endViewPosition.x, y: endViewPosition.y)
+            self.sampleLabel.textColor = .green
+        })
+        
+    }
 }
